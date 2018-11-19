@@ -275,7 +275,7 @@ function tetris(launchpad) {
     return removedLines;
   }
 
-  function tick() {
+  function tick(isExtra = false) {
     if (tetronimo.y === tetronimo.height || tetronimo.collided) {
       //clearAll(launchpad);
       tetronimo.draw(settledPieces, (board, x, y) => {
@@ -287,7 +287,10 @@ function tetris(launchpad) {
     }
     print();
     tetronimo = tetronimo.moveDown(settledPieces);
-    setTimeout(tick, delay);
+
+    if (!isExtra) {
+      setTimeout(tick, delay);
+    }
   }
 
   function drawSettledPieces(board, settledPieces) {
@@ -317,7 +320,7 @@ function tetris(launchpad) {
     .on('functionY', y => {
       console.log('pressed functionY', y);
       if (y === 0) {
-        tick();
+        tick(true);
       }
       if (y === 7) {
         initialize();
