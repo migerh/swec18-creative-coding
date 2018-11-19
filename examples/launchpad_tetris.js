@@ -2,6 +2,7 @@ const debug = require('debug');
 const lunchpad = require('lunchpad');
 const Color = lunchpad.Color;
 
+const FakeLaunchpad = require('./tetris/FakeLaunchpad');
 const generateBlankSquare = require('../lib/generateBlankSquare');
 
 const STATE_RUNNING = 'running';
@@ -193,29 +194,6 @@ class Z extends Tetronimo {
       ['xx ', ' xx'],
       [' x', 'xx', 'x ']
     ];
-  }
-}
-
-class FakeLaunchpad {
-  setFunctionX() {
-    return this;
-  }
-  setFunctionY() {
-    return this;
-  }
-  clearFunctionButtons() {}
-  on() {
-    return this;
-  }
-  clearSquares() {}
-  _isBlack(color) {
-    return color._red === 0 && color._green === 0;
-  }
-  updateBoard(board) {
-    for (let y = 0; y < 8; ++y) {
-      const line = board[y].map(p => this._isBlack(p) ? ' ' : 'x');
-      console.log(line.join(''));
-    }
   }
 }
 

@@ -19,6 +19,7 @@
   "dependencies": {
     "color": "^3.1.0",
     "dmx": "github:wiedi/node-dmx",
+    "keypress": "^0.2.1",
     "lunchpad": "^2.0.1"
   }
 }
