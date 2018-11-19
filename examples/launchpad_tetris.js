@@ -1,6 +1,4 @@
-const debug = require('debug');
 const lunchpad = require('lunchpad');
-const Color = lunchpad.Color;
 
 const FakeLaunchpad = require('./tetris/FakeLaunchpad');
 const generateBlankSquare = require('../lib/generateBlankSquare');
@@ -8,6 +6,8 @@ const generateBlankSquare = require('../lib/generateBlankSquare');
 const STATE_RUNNING = 'running';
 const STATE_NONE = 'none';
 const STATE_ERROR = 'error';
+
+const Color = lunchpad.Color;
 
 class Tetronimo {
   constructor(width, height, color) {
@@ -171,7 +171,7 @@ class S extends Tetronimo {
     this.rotations = [
       [' xx', 'xx '],
       ['x ', 'xx', ' x']
-    ]
+    ];
   }
 }
 
@@ -217,7 +217,7 @@ function tetris(launchpad) {
   function randomTetronimo() {
     // return new O(Color.RED);
     const selection = parseInt(Math.random() * 7, 10);
-    switch(selection) {
+    switch (selection) {
       case 0:
         return new I(Color.GREEN);
       case 1:
@@ -255,17 +255,16 @@ function tetris(launchpad) {
   }
 
   function handleError() {
-    state = STATE_ERROR
+    state = STATE_ERROR;
 
-    launchpad.updateBoard(generateBlankSquare(Color.RED))
-    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.BLACK)), 400)
-    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.RED)), 800)
-    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.BLACK)), 1200)
+    launchpad.updateBoard(generateBlankSquare(Color.RED));
+    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.BLACK)), 400);
+    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.RED)), 800);
+    setTimeout(() => launchpad.updateBoard(generateBlankSquare(Color.BLACK)), 1200);
   }
 
   function clearFullLines(settledPieces) {
     console.log(settledPieces);
-//    const transposed = 
     const removedLines = settledPieces.filter(l => l !== 'xxxxxxxx');
     while (removedLines.length < 8) {
       removedLines.push('        ');
@@ -277,7 +276,6 @@ function tetris(launchpad) {
 
   function tick(isExtra = false) {
     if (tetronimo.y === tetronimo.height || tetronimo.collided) {
-      //clearAll(launchpad);
       tetronimo.draw(settledPieces, (board, x, y) => {
         const l = board[x];
         board[x] = [...l.slice(0, y), 'x', ...l.slice(y + 1)].join('');
@@ -304,21 +302,14 @@ function tetris(launchpad) {
   }
 
   function print() {
-    let board = generateBlankSquare(Color.BLACK)
+    const board = generateBlankSquare(Color.BLACK);
     drawSettledPieces(board, settledPieces);
     tetronimo.draw(board);
     launchpad.updateBoard(board);
-
-    // snake.forEach((entry, i) => blank[entry.x][entry.y] = entry.c)
-
-    // blank[apple.x][apple.y] = Color.RED
-
-    // launchpad.updateBoard(blank)
   }
 
   launchpad
     .on('functionY', y => {
-      console.log('pressed functionY', y);
       if (y === 0) {
         tick(true);
       }
@@ -333,14 +324,13 @@ function tetris(launchpad) {
       }
     })
     .on('functionX', x => {
-      console.log('pressed functionX', x);
       if (x === 0) {
         tetronimo = tetronimo.moveLeft(settledPieces);
       }
       if (x === 1) {
         tetronimo = tetronimo.moveRight(settledPieces);
       }
-    })
+    });
 
   clearAll(launchpad);
 
@@ -348,7 +338,7 @@ function tetris(launchpad) {
     .setFunctionY(0, Color.getColor(1, 1))
     .setFunctionY(1, Color.getColor(1, 1))
     .setFunctionX(0, Color.getColor(1, 1))
-    .setFunctionX(1, Color.getColor(1, 1))
+    .setFunctionX(1, Color.getColor(1, 1));
 
   initiate();
 }
